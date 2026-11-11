@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseServer as supabase, REGISTRATION_CAP, SHORTLIST_COUNT, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, REGISTRATION_CAP, SHORTLIST_COUNT, isSupabaseConfigured } from '@/lib/supabase';
 import { registrationSchema } from '@/lib/registration';
 
 export const dynamic = 'force-dynamic';
@@ -142,20 +142,6 @@ export async function POST(req: Request) {
               "The 'registrations' table is not yet created in Supabase. Please open your Supabase Dashboard -> SQL Editor, and run 'supabase/schema.sql'.",
           },
           { status: 503 }
-        );
-      }
-      if (
-        insertError.code === '42501' ||
-        insertError.message.toLowerCase().includes('row-level security') ||
-        insertError.message.toLowerCase().includes('violates row-level security policy')
-      ) {
-        return NextResponse.json(
-          {
-            success: false,
-            error:
-              "Database Row-Level Security (RLS) is blocking inserts. In your Supabase Dashboard -> SQL Editor, run 'supabase/fix_rls.sql' (or add SUPABASE_SERVICE_ROLE_KEY to your environment variables).",
-          },
-          { status: 500 }
         );
       }
       if (insertError.message.includes('limit reached')) {

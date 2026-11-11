@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseServer as supabase, REGISTRATION_CAP, SHORTLIST_COUNT, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, REGISTRATION_CAP, SHORTLIST_COUNT, isSupabaseConfigured } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
